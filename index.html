@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BHARAT LAW RULES - AI Advisor</title>
+    <style>
+        /* --- PROFESSIONAL BHARAT THEME --- */
+        :root {
+            --primary-navy: #1a2c4e; /* Lawyer Blue */
+            --gold-accent: #d4af37;  /* Legal Gold */
+            --light-bg: #f5f7fa;
+            --white: #ffffff;
+            --text-dark: #333333;
+            --border-color: #e0e0e0;
+        }
+
+        * {
+            box-sizing: border-box;
+            font-family: 'Georgia', 'Times New Roman', serif; 
+        }
+
+        body {
+            margin: 0;
+            background-color: var(--light-bg);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        /* MAIN APP BOX */
+        .legal-app {
+            width: 95%;
+            max-width: 1300px;
+            height: 90vh;
+            background-color: var(--white);
+            border-radius: 8px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+            display: flex;
+            overflow: hidden;
+            border-top: 5px solid var(--primary-navy);
+        }
+
+        /* --- LEFT SIDEBAR --- */
+        .sidebar {
+            width: 300px;
+            background-color: var(--primary-navy);
+            color: var(--white);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .brand-header {
+            padding: 25px;
+            background-color: #121f36;
+            text-align: center;
+            border-bottom: 2px solid var(--gold-accent);
+        }
+
+        .brand-header h2 {
+            margin: 0;
+            font-family: 'Georgia', serif;
+            font-weight: bold; /* Bold for BHARAT LAW RULES */
+            letter-spacing: 1px;
+            font-size: 20px;
+            text-transform: uppercase;
+        }
+
+        .brand-header span {
+            font-size: 11px;
+            color: #ccc;
+            letter-spacing: 2px;
+            margin-top: 5px;
+            display: block;
+        }
+
+        .law-list {
+            flex: 1;
+            overflow-y: auto;
+            padding: 10px;
+        }
+
+        /* Scrollbar styling */
+        .law-list::-webkit-scrollbar { width: 6px; }
+        .law-list::-webkit-scrollbar-thumb { background: #555; }
+
+        .law-btn {
+            background: transparent;
+            color: #d1d1d1;
+            padding: 15px;
+            border: none;
+            width: 100%;
+            text-align: left;
+            cursor: pointer;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            font-size: 14px;
+        }
+
+        .law-btn:hover {
+            background-color: rgba(255,255,255,0.1);
+            color: var(--white);
+            padding-left: 20px;
+        }
+
+        .law-btn span {
+            margin-right: 10px;
+            color: var(--gold-accent);
+        }
+
+        /* --- RIGHT SIDE (The Consultation) --- */
+        .chat-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background-color: #fcfcfc;
+        }
+
+        .chat-header {
+            padding: 20px;
+            border-bottom: 1px solid var(--border-color);
+            background-color: var(--white);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .chat-header h3 {
+            margin: 0;
+            color: var(--primary-navy);
+        }
+
+        .status-badge {
+            background-color: #e8f5e9;
+            color: #2e7d32;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .chat-box {
+            flex: 1;
+            padding: 30px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            background-image: radial-gradient(#e0e0e0 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+
+        /* BUBBLES */
+        .msg {
+            max-width: 80%;
+            padding: 15px 20px;
+            border-radius: 6px;
+            line-height: 1.6;
+            font-size: 15px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .bot-msg {
+            align-self: flex-start;
+            background-color: var(--white);
+            border-left: 4px solid var(--primary-navy);
+            color: var(--text-dark);
+        }
+
+        .user-msg {
+            align-self: flex-end;
+            background-color: var(--primary-navy);
+            color: var(--white);
+            border-right: 4px solid var(--gold-accent);
+        }
+
+        /* INPUT AREA */
+        .input-area {
+            padding: 20px;
+            background-color: var(--white);
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            gap: 15px;
+        }
+
+        input {
+            flex: 1;
+            padding: 15px;
+            border: 2px solid var(--border-color);
+            border-radius: 4px;
+            font-size: 16px;
+            outline: none;
+        }
+
+        input:focus {
+            border-color: var(--primary-navy);
+        }
+
+        button {
+            padding: 0 30px;
+            background-color: var(--primary-navy);
+            color: var(--white);
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        button:hover {
+            background-color: #2c4a80;
+        }
+
+        /* CITATION CARD STYLE */
+        .citation-card {
+            background-color: #fffef0; /* Light legal yellow pad color */
+            border: 1px solid #e0d0a0;
+            padding: 15px;
+            margin-top: 10px;
+            border-radius: 4px;
+        }
+        .citation-header {
+            color: #a00000;
+            font-weight: bold;
+            font-family: 'Georgia', serif;
+            font-size: 1.1em;
+            margin-bottom: 5px;
+            display: block;
+        }
+        .citation-section {
+            font-weight: bold;
+            color: var(--primary-navy);
+            display: block;
+            margin-bottom: 8px;
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="legal-app">
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+        <div class="brand-header">
+            <h2>⚖️ BHARAT LAW RULES</h2>
+            <span>Virtual Legal Counsel</span>
+        </div>
+        
+        <div class="law-list" id="sidebarList">
+            <!-- Items added via JavaScript -->
+        </div>
+    </div>
+
+    <!-- MAIN CHAT -->
+    <div class="chat-container">
+        <div class="chat-header">
+            <h3>Legal Consultation Room</h3>
+            <span class="status-badge">SYSTEM ACTIVE</span>
+        </div>
+
+        <div class="chat-box" id="chatBox">
+            <div class="msg bot-msg">
+                <strong>Namaste.</strong><br><br>
+                Welcome to <b>BHARAT LAW RULES</b>. I am your automated legal assistant.<br><br>
+                Please describe the incident (e.g., <i>"Cheque bounced"</i>, <i>"Online fraud"</i>, or <i>"Someone is threatening me"</i>).
+            </div>
+        </div>
+
+        <div class="input-area">
+            <input type="text" id="userInput" placeholder="Type your case details here..." onkeydown="if(event.key === 'Enter') sendMessage()">
+            <button onclick="sendMessage()">CONSULT</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    // --- DATABASE: REAL WORLD PROBLEMS ---
+    const legalKnowledge = [
+        {
+            icon: "💰",
+            name: "Cheque Bounce",
+            section: "Section 138 (NI Act)",
+            keywords: ["cheque", "check", "bounce", "dishonour", "payment failed", "bank return"],
+            advice: "This falls under the Negotiable Instruments Act. You must send a legal notice to the defaulter within 30 days of the bank memo."
+        },
+        {
+            icon: "💻",
+            name: "Cyber Crime / Fake ID",
+            section: "Section 66C & 66D (IT Act)",
+            keywords: ["fake profile", "instagram", "facebook", "hacked", "online fraud", "password", "cyber"],
+            advice: "Creating a fake profile or cheating by impersonation using computer resources is a punishable offense."
+        },
+        {
+            icon: "👊",
+            name: "Fighting / Hurt",
+            section: "IPC Section 323",
+            keywords: ["fight", "hit", "beat", "slap", "punch", "attack", "injury", "physical"],
+            advice: "Punishment for voluntarily causing hurt. This covers non-fatal physical altercations."
+        },
+        {
+            icon: "👁️",
+            name: "Stalking (Women)",
+            section: "IPC Section 354D",
+            keywords: ["stalking", "following", "bothering", "watching", "messaging repeatedly", "creep"],
+            advice: "Any man who follows a woman and contacts her despite disinterest, or monitors her internet usage."
+        },
+        {
+            icon: "💍",
+            name: "Dowry / Domestic Violence",
+            section: "IPC Section 498A",
+            keywords: ["husband", "in-laws", "dowry", "cruelty", "torture", "wife", "domestic"],
+            advice: "Harassment of a woman by her husband or his relatives. This is a non-bailable offense."
+        },
+        {
+            icon: "🚗",
+            name: "Road Accident",
+            section: "IPC Section 279",
+            keywords: ["accident", "rash driving", "car crash", "bike accident", "hit", "negligent"],
+            advice: "Rash driving or riding on a public way. If hurt is caused, Section 337 also applies."
+        },
+        {
+            icon: "💵",
+            name: "Theft / Robbery",
+            section: "IPC Section 379",
+            keywords: ["theft", "stole", "stolen", "thief", "purse", "wallet", "mobile", "robbery"],
+            advice: "Whoever moves property out of possession without consent intends to commit theft."
+        },
+        {
+            icon: "🔒",
+            name: "Cheating (420)",
+            section: "IPC Section 420",
+            keywords: ["cheat", "scam", "fraud", "lied", "money taken", "deceived", "property"],
+            advice: "Cheating and dishonestly inducing delivery of property. Commonly known as a '420' case."
+        },
+        {
+            icon: "🗣️",
+            name: "Defamation / Insult",
+            section: "IPC Section 499",
+            keywords: ["defamation", "insult", "reputation", "rumors", "bad name", "lies"],
+            advice: "Making false statements to harm a person's reputation."
+        }
+    ];
+
+    // --- POPULATE SIDEBAR ---
+    const listContainer = document.getElementById("sidebarList");
+    legalKnowledge.forEach(item => {
+        const btn = document.createElement("button");
+        btn.className = "law-btn";
+        btn.innerHTML = `<span>${item.icon}</span> ${item.name}`;
+        btn.onclick = () => {
+            document.getElementById("userInput").value = item.name;
+            sendMessage();
+        };
+        listContainer.appendChild(btn);
+    });
+
+    // --- CHAT LOGIC ---
+    function sendMessage() {
+        const input = document.getElementById("userInput");
+        const chatBox = document.getElementById("chatBox");
+        const text = input.value.trim();
+
+        if (text === "") return;
+
+        // 1. User Message
+        chatBox.innerHTML += `<div class="msg user-msg">${text}</div>`;
+        input.value = "";
+        scrollToBottom();
+
+        // 2. Bot Logic
+        setTimeout(() => {
+            const result = findLaw(text);
+            chatBox.innerHTML += `<div class="msg bot-msg">${result}</div>`;
+            scrollToBottom();
+        }, 600);
+    }
+
+    function findLaw(userText) {
+        userText = userText.toLowerCase();
+        
+        // Greetings
+        if(userText.match(/^(hi|hello|hey|namaste)/)) {
+            return "Greetings. How may I assist you with Indian Law today?";
+        }
+
+        let bestMatch = null;
+        let maxPoints = 0;
+
+        legalKnowledge.forEach(law => {
+            let points = 0;
+            // Check keywords
+            law.keywords.forEach(word => {
+                if(userText.includes(word)) points += 2;
+            });
+            // Check exact topic name
+            if(userText.includes(law.name.toLowerCase())) points += 3;
+
+            if(points > maxPoints) {
+                maxPoints = points;
+                bestMatch = law;
+            }
+        });
+
+        if (bestMatch && maxPoints > 0) {
+            return `
+                Based on your description, the following section applies:
+                <div class="citation-card">
+                    <span class="citation-header">${bestMatch.name}</span>
+                    <span class="citation-section">${bestMatch.section}</span>
+                    ${bestMatch.advice}
+                </div>
+                <br><i>Recommendation: Please visit your local Police Station to file an FIR/NC under this section.</i>
+            `;
+        } else {
+            return "I could not find a specific section for that. Please try using keywords like <b>'Theft', 'Cheque Bounce', 'Harassment'</b> or select a topic from the sidebar.";
+        }
+    }
+
+    function scrollToBottom() {
+        const chatBox = document.getElementById("chatBox");
+        chatBox.scrollTop = chatBox.scrollHeight;
+    }
+</script>
+
+</body>
+</html>
